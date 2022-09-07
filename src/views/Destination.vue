@@ -5,29 +5,28 @@
             <h3 class="pageTitle"><span>01</span> Pick your destination</h3>
             <div class="destinationDetails">
                 <div class="imgBox">
-                    <img src="../assets/destination/image-moon.png">
+                    <img :src="image">
                 </div>
                 <div class="destinationDescription">
                     <ul class="destNav">
-                        <li class="active">Moon</li>
-                        <li>Mars</li>
-                        <li>Europa</li>
-                        <li>Titan</li>
+                        <li v-for="destination in destinations" :key="destination.name"
+                        :class="{active: isPicked(destination.name)}"
+                        @click="pickDestination(destination.name)"
+                        >{{destination.name}}</li>
                     </ul>
                     <div class="infoBox">
-                        <h2 class="destinationTitle">Moon</h2>
-                        <p class="destinationText">See our planet as you’ve never seen it before. A perfect relaxing trip away to help 
-                        regain perspective and come back refreshed. While you’re there, take in some history 
-                        by visiting the Luna 2 and Apollo 11 landing sites.
+                        <h2 class="destinationTitle">{{actualDestination.name}}</h2>
+                        <p class="destinationText">
+                            {{actualDestination.description}}
                         </p>
                         <div class="travelInfos">
                             <div class="travelInfo distanceInfo">
                                 <h4>Avg. distance</h4>
-                                <span class="distance">384,400 km</span>
+                                <span class="distance">{{actualDestination.distance}}</span>
                             </div>
                             <div class="travelInfo timeInfo">
                                 <h4>Est. travel time</h4>
-                                <span class="time">3 days</span>
+                                <span class="time">{{actualDestination.travel}}</span>
                             </div>
                         </div>
                     </div>
@@ -45,6 +44,41 @@ export default {
     name: 'Destination',
     components: {
         Navigation
+    },
+    data() {
+        return {
+            destinations: [],
+            actualDestination: {}
+        }
+    },
+    methods: {
+        async getDestinations() {
+           let res = await fetch('/data.json')
+           let data = await res.json()
+           this.destinations = data.destinations
+        },
+        pickDestination(name) {
+           this.actualDestination = this.destinations.find((destination) => {
+                return destination.name === name
+            })
+        },
+        isPicked(name) {
+            return name === this.actualDestination.name
+        }
+    },
+    computed: {
+        image() {
+           if(this.actualDestination.images) {
+               return this.actualDestination.images.png
+           }
+           else {
+               return ''
+           }
+        }
+    },
+    async created() {
+        await this.getDestinations()
+        this.actualDestination = this.destinations[0]
     }
 }
 </script>
@@ -59,7 +93,7 @@ export default {
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    background: url(../assets/destination/background-destination-desktop.jpg);
+    background: url(../../public/assets/destination/background-destination-desktop.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -68,7 +102,7 @@ export default {
     @include tablet {
         height: 100%;
         min-height: 100vh;
-        background: url(../assets/destination/background-destination-tablet.jpg);
+        background: url(../../public/assets/destination/background-destination-tablet.jpg);
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
@@ -85,9 +119,15 @@ export default {
         flex-direction: column;
 
         @include tablet {
-            margin-top: 100px;
             padding: 30px;
-            height: calc(100vh - 95px);
+            height: 100%;
+            min-height: calc(100vh - 95px);
+        }
+
+        @include mobile {
+            padding: 25px;
+            padding-top: 0;
+            align-items: center;
         }
 
         .pageTitle {
@@ -102,6 +142,12 @@ export default {
             @include tablet {
                 font-size: 1.1em;
                 margin: 30px 0;
+            }
+
+            @include mobile {
+                font-size: 1em;
+                margin: 5px 0 30px;
+                text-align: center;
             }
 
             span {
@@ -121,6 +167,7 @@ export default {
             align-items: center;
 
             @include tablet {
+                max-height: none;
                 justify-content: center;
                 flex-direction: column;
             }
@@ -137,6 +184,13 @@ export default {
                 @include tablet {
                     max-width: 280px;
                     max-height: 280px;
+                    margin-bottom: 30px;
+                }
+
+                @include mobile {
+                    max-width: 170px;
+                    max-height: 170px;
+                    height: auto;
                 }
 
                 img {
@@ -156,6 +210,14 @@ export default {
                 align-items: flex-start;
                 flex-direction: column;
 
+                @include tablet {
+                    width: 100%;
+                    max-width: none;
+                    min-height: none;
+                    justify-content: center;
+                    align-items: center;
+                }
+
                 .destNav {
                     position: relative;
                     width: 100%;
@@ -164,6 +226,11 @@ export default {
                     justify-content: space-between;
                     align-items: center;
                     margin-bottom: 15px;
+
+                    @include mobile {
+                        max-width: 240px;
+                        margin-bottom: 20px;
+                    }
 
                     li {
                         list-style: none;
@@ -185,6 +252,10 @@ export default {
                         &:hover {
                             border-bottom: 2px solid rgba(255,255,255,0.5);
                         }
+
+                        @include mobile {
+                            font-size: 0.9em;
+                        }
                     }
                 }
 
@@ -196,6 +267,12 @@ export default {
                     align-items: flex-start;
                     flex-direction: column;
 
+                    @include tablet {
+                        justify-content: center;
+                        align-items: center;
+                        text-align: center;
+                    }
+
                     .destinationTitle {
                         font-size: 4em;
                         font-family: 'Bellefair', serif;
@@ -204,6 +281,10 @@ export default {
                         letter-spacing: 4px;
                         margin-bottom: 15px;
                         color: $white;
+
+                        @include mobile {
+                            font-size: 3.5em;
+                        }
                     }
 
                     .destinationText {
@@ -215,6 +296,18 @@ export default {
                         padding-bottom: 40px;
                         border-bottom: 1px solid rgba(255,255,255,0.1);
                         margin-bottom: 10px;
+
+                        @include tablet {
+                            padding-right: 0;
+                            margin: 0 50px 10px;
+                        }
+
+                        @include mobile {
+                            font-size: 1em;
+                            margin: 0;
+                            margin-bottom: 20px;
+                            padding-bottom: 30px;
+                        }
                     }
 
                     .travelInfos {
@@ -224,8 +317,24 @@ export default {
                         justify-content: space-between;
                         align-items: flex-start;
 
+                        @include tablet {
+                            width: 100%;
+                            max-width: 300px;
+                            align-items: center;
+                        }
+
+                        @include mobile {
+                            justify-content: center;
+                            flex-direction: column;
+                            max-width: 100%;
+                        }
+
                         .travelInfo {
                             text-transform: uppercase;
+
+                            @include mobile {
+                                margin-bottom: 25px;
+                            }
 
                             h4 {
                                 color: $blue;
@@ -233,6 +342,10 @@ export default {
                                 font-size: 0.8em;
                                 letter-spacing: 2px;
                                 margin-bottom: 5px;
+
+                                @include mobile {
+                                    margin-bottom: 10px;
+                                }
                             }
 
                             span {

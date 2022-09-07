@@ -1,22 +1,26 @@
 <template>
     <nav>
-      <img src="../assets/shared/logo.svg" class="logo">
+      <img src="../../public/assets/shared/logo.svg" class="logo">
       <div class="line"></div>
       <ul class="desktopMenu">
-        <li class="active"><span>00</span> Home</li>
-        <li><span>01</span> Destination</li>
-        <li><span>02</span> Crew</li>
-        <li><span>03</span> Technology</li>
+        <li v-for="element in navElements" :key="element.to"
+          :class="{active: isActiveElement(element.to)}"
+          @click="redirectTo(element.to)">
+            <span>{{element.num}}</span>
+            {{element.title}}
+        </li>
       </ul>
       <div class="mobileMenuBtn" @click="mobileMenuToggle()">
             <ion-icon name="menu" v-if="!isActiveMobileMenu"></ion-icon>
             <ion-icon name="close-outline" v-if="isActiveMobileMenu"></ion-icon>
         </div>
         <ul class="mobileMenu" :class="{active: isActiveMobileMenu}">
-            <li class="active"><span>00</span> Home</li>
-            <li><span>01</span> Destination</li>
-            <li><span>02</span> Crew</li>
-            <li><span>03</span> Technology</li>
+            <li v-for="element in navElements" :key="element.to"
+              :class="{active: isActiveElement(element.to)}"
+              @click="redirectTo(element.to)">
+                <span>{{element.num}}</span>
+                {{element.title}}
+            </li>
         </ul>
     </nav>
 </template>
@@ -26,12 +30,40 @@ export default {
     name: 'Navigation',
     data() {
         return {
-            isActiveMobileMenu: false
+            isActiveMobileMenu: false,
+            navElements: [
+              {
+                title: "Home",
+                num: '00',
+                to: "/"
+              },
+              {
+                title: "Destination",
+                num: '01',
+                to: "/destination"
+              },
+              {
+                title: "Crew",
+                num: '02',
+                to: "/crew"
+              },
+              {
+                title: "Technology",
+                num: '03',
+                to: "/technology"
+              }
+            ]
         }
     },
     methods: {
         mobileMenuToggle() {
             this.isActiveMobileMenu = !this.isActiveMobileMenu
+        },
+        redirectTo(to) {
+          this.$router.push(to)
+        },
+        isActiveElement(to) {
+          return to === this.$route.path
         }
     }
 }
@@ -61,6 +93,13 @@ nav {
     @include tablet {
       margin-left: 30px;
       margin-right: 30px;
+    }
+
+    @include mobile {
+      width: 40px;
+      height: 40px;
+      margin-left: 25px;
+      margin-right: 25px;
     }
   }
 

@@ -39,7 +39,7 @@ export default {
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
-  background: url(../assets/home/background-home-desktop.jpg);
+  background: url(../../public/assets/home/background-home-desktop.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -48,7 +48,7 @@ export default {
   @include tablet {
     height: 100%;
     min-height: 100vh;
-    background: url(../assets/home/background-home-tablet.jpg);
+    background: url(../../public/assets/home/background-home-tablet.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
