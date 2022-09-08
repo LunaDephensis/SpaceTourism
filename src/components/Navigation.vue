@@ -122,6 +122,7 @@ nav {
     position: relative;
     height: 100%;
     width: 60%;
+    min-width: 565px;
     background: rgba(255,255,255,0.04);
     backdrop-filter: blur(20px);
     display: flex;
@@ -134,6 +135,7 @@ nav {
       justify-content: space-evenly;
       width: 100%;
       max-width: 450px;
+      min-width: none;
     }
 
     @include mobile {

@@ -2,9 +2,10 @@
     <section class="crew">
         <Navigation/>
         <class class="mainContent">
+            <h3 class="pageTitle"><span>02</span> Meet your crew</h3>
                 <div class="crewInfos">
+                    
                     <div class="textBox">
-                        <h3 class="pageTitle"><span>02</span> Meet your crew</h3>
                         <h3 class="role">Commander</h3>
                         <h2 class="name">Douglas Hurley</h2>
                         <p>Douglas Gerald Hurley is an American engineer, former Marine Corps   pilot 
@@ -68,9 +69,9 @@ export default {
         width: 100%;
         height: calc(100% - 175px);
         padding-left: 160px;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 95px 1fr;
 
         @include tablet {
             padding-left: 0;
@@ -78,20 +79,56 @@ export default {
             padding-bottom: 0;
             height: 100%;
             min-height: calc(100vh - 95px);
+            display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
         }
 
+        @include mobile {
+            padding: 0 25px;
+        }
+
+        .pageTitle {
+                position: relative;
+                font-size: 1.4em;
+                font-weight: 300;
+                letter-spacing: 3px;
+                text-transform: uppercase;
+                color: $white;
+                grid-column: 1/2;
+                grid-row: 1/2;
+
+                @include tablet {
+                    width: 100%;
+                    text-align: start;
+                    margin-bottom: 30px;
+                }
+
+                @include mobile {
+                    text-align: center;
+                    font-size: 1.1em;
+                    order: 1;
+                    margin-top: 10px;
+                }
+
+                span {
+                    font-weight: 700;
+                    margin-right: 8px;
+                    opacity: 0.3;
+                }
+            }
+
         .crewInfos {
             position: relative;
-            max-width: 60%;
             height: 100%;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             flex-direction: column;
             margin-right: 15px;
+            grid-column: 1/2;
+            grid-row: 2/3;
 
             @include tablet {
                 justify-content: center;
@@ -100,6 +137,12 @@ export default {
                 max-width: 100%;
                 margin-right: 0;
             }
+
+            @include mobile {
+                order: 3;
+                flex-direction: column-reverse;
+            }
+
 
             .textBox {
                 position: relative;
@@ -112,28 +155,10 @@ export default {
                     flex-direction: column;
                     text-align: center;
                 }
+
             }
 
-            .pageTitle {
-                position: relative;
-                font-size: 1.4em;
-                font-weight: 300;
-                letter-spacing: 3px;
-                text-transform: uppercase;
-                color: $white;
-                margin-bottom: 100px;
-
-                @include tablet {
-                    width: 100%;
-                    text-align: start;
-                }
-
-                span {
-                    font-weight: 700;
-                    margin-right: 8px;
-                    opacity: 0.3;
-                }
-            }
+            
 
             .role {
                 font-size: 1.8em;
@@ -147,6 +172,10 @@ export default {
                 @include tablet {
                     font-size: 1.5em;
                 }
+
+                @include mobile {
+                    font-size: 1.1em;
+                }
             }
 
             .name {
@@ -159,6 +188,10 @@ export default {
 
                 @include tablet {
                     font-size: 2.5em;
+                }
+
+                @include mobile {
+                    font-size: 1.8em;
                 }
             }
 
@@ -174,6 +207,7 @@ export default {
                     margin-bottom: 40px;
                     font-size: 1em;
                 }
+
             }
 
             .crewNav {
@@ -198,7 +232,7 @@ export default {
                     border-radius: 50%;
                     margin-right: 25px;
                     cursor: pointer;
-                    z-index: 100;
+                    z-index: 50;
                     transition: 0.2s ease-in-out;
 
                     @include tablet {
@@ -225,15 +259,33 @@ export default {
         .imgBox {
             position: relative;
             height: 100%;
-            width: 40%;
             display: flex;
             justify-content: center;
             align-items: flex-end;
-            margin-right: 50px;
+            margin-right: 15px;
+            grid-column: 2/3;
+            grid-row: 1/3;
+
+            @include tablet {
+                margin-right: 0;
+                width: 100%;
+            }
+
+            @include mobile {
+                width: 100%;
+                height: 230px;
+                margin-bottom: 30px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                order: 2;
+            }
 
             img {
                 position: relative;
                 height: 100%;
+
+                @include tablet {
+                    max-height: 500px;
+                }
             }
         }
     }
