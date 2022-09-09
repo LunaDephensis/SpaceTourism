@@ -135,7 +135,7 @@ nav {
       justify-content: space-evenly;
       width: 100%;
       max-width: 450px;
-      min-width: none;
+      min-width: 0;
     }
 
     @include mobile {
@@ -160,7 +160,7 @@ nav {
 
       @include tablet {
         font-size: 14px;
-        margin: 0 15px;
+        margin: 0 5px;
       }
 
       &.active {

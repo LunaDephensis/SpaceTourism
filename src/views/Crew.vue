@@ -6,22 +6,19 @@
                 <div class="crewInfos">
                     
                     <div class="textBox">
-                        <h3 class="role">Commander</h3>
-                        <h2 class="name">Douglas Hurley</h2>
-                        <p>Douglas Gerald Hurley is an American engineer, former Marine Corps   pilot 
-                        and former NASA astronaut. He launched into space for the third time as 
-                        commander of Crew Dragon Demo-2.</p>
+                        <h3 class="role">{{actualCrewMember.role}}</h3>
+                        <h2 class="name">{{actualCrewMember.name}}</h2>
+                        <p>{{actualCrewMember.bio}}</p>
                     </div>
                     
                     <div class="crewNav">
-                        <span class="active point"></span>
-                        <span class="point"></span>
-                        <span class="point"></span>
-                        <span class="point"></span>
+                        <span v-for="member in crewMembers" :key="member.name"
+                        @click="turnCrew(member.name)"
+                        :class="{active: isActiveMember(member.name)}"></span>
                     </div>
                 </div>
                 <div class="imgBox">
-                    <img src="../../public/assets/crew/image-douglas-hurley.png" >
+                    <img :src="image" >
                 </div>
         </class>
     </section>
@@ -35,6 +32,41 @@ export default {
     name: 'Crew',
     components: {
         Navigation
+    },
+    data() {
+        return {
+            crewMembers: [],
+            actualCrewMember: {}
+        }
+    },
+    methods: {
+        async getCrewMebers() {
+            let res = await fetch('/data.json')
+            let data = await res.json()
+            this.crewMembers = data.crew
+        },
+        turnCrew(name) {
+            this.actualCrewMember = this.crewMembers.find((member) => {
+                return member.name === name
+            })
+        },
+        isActiveMember(name) {
+            return name === this.actualCrewMember.name
+        }
+    },
+    computed: {
+        image() {
+           if(this.actualCrewMember.images) {
+               return this.actualCrewMember.images.png
+           }
+           else {
+               return ''
+           }
+        }
+    },
+    async created() {
+        await this.getCrewMebers()
+        this.actualCrewMember = this.crewMembers[0]
     }
 }
 </script>
