@@ -6,21 +6,21 @@
             <div class="technologyDetails">
                 <div class="techDescription">
                     <ul class="techNav">
-                        <li class="active">1</li>
-                        <li>2</li>
-                        <li>3</li>
+                        <li v-for="(tech, i) in technology" :key="i"
+                        @click="turnTechnologyPage(tech.name)"
+                        :class="{active: isActiveTechnologyPage(tech.name)}">{{i + 1}}</li>
                     </ul>
                     <div class="infoBox">
                         <h4>The terminology...</h4>
-                        <h2>Launch vehicle</h2>
-                        <p>A launch vehicle or carrier rocket is a rocket-propelled vehicle used to carry a 
-                        payload from Earth's surface to space, usually to Earth orbit or beyond. Our 
-                        WEB-X carrier rocket is the most powerful in operation. Standing 150 metres tall, 
-                        it's quite an awe-inspiring sight on the launch pad!</p>
+                        <h2>{{actualTechnology.name}}</h2>
+                        <p>{{actualTechnology.description}}</p>
                     </div>
                 </div>
                 <div class="imgBox">
-                    <img src="../../public/assets/technology/image-launch-vehicle-portrait.jpg">
+                    <picture>
+                        <source media="(max-width: 768px)" :srcset="landscape">
+                        <img :src="portrait">
+                    </picture>
                 </div>
             </div>
         </div>
@@ -35,6 +35,49 @@ export default {
     name: 'Technology',
     components: {
         Navigation
+    },
+    data() {
+        return {
+            technology: [],
+            actualTechnology: {}
+        }
+    },
+    methods: {
+        async getTechnology() {
+            let res = await fetch('/data.json')
+            let data = await res.json()
+            this.technology = data.technology
+        },
+        turnTechnologyPage(name) {
+            this.actualTechnology = this.technology.find((tech) => {
+                return tech.name === name
+            })
+        },
+        isActiveTechnologyPage(name) {
+            return name === this.actualTechnology.name
+        }
+    },
+    computed: {
+        portrait() {
+            if(this.actualTechnology.images) {
+                return this.actualTechnology.images.portrait
+            }
+            else {
+                return ''
+            }
+        },
+        landscape() {
+            if(this.actualTechnology.images) {
+                return this.actualTechnology.images.landscape
+            }
+            else {
+                return ''
+            }
+        }
+    },
+    async created() {
+        await this.getTechnology()
+        this.actualTechnology = this.technology[0]
     }
 }
 </script>
@@ -133,6 +176,12 @@ export default {
                 justify-content: center;
                 align-items: center;
 
+                @include tablet {
+                    max-height: none;
+                    flex-direction: column;
+                    width: 100%;
+                }
+
                 .techNav {
                     position: relative;
                     height: 100%;
@@ -142,6 +191,19 @@ export default {
                     align-items: center;
                     flex-direction: column;
                     margin-right: 50px;
+
+                    @include tablet {
+                        margin-right: 0;
+                        width: 100%;
+                        max-width: 210px;
+                        flex-direction: row;
+                        margin-bottom: 40px;
+                    }
+
+                    @include mobile {
+                        max-width: 155px;
+                        margin-bottom: 25px;
+                    }
 
                     li {
                         position: relative;
@@ -159,6 +221,18 @@ export default {
                         border: 1px solid rgba(255,255,255,0.25);
                         border-radius: 50%;
                         cursor: pointer;
+
+                        @include tablet {
+                            width: 50px;
+                            height: 50px;
+                            font-size: 1.4em;
+                        }
+
+                        @include mobile {
+                            width: 40px;
+                            height: 40px;
+                            font-size: 1em;
+                        }
 
                         &.active {
                             background: $white;
@@ -184,6 +258,20 @@ export default {
                     flex-direction: column;
                     margin-right: 15px;
 
+                    @include tablet {
+                        height: auto;
+                        max-width: none;
+                        justify-content: center;
+                        align-items: center;
+                        text-align: center;
+                        margin-right: 0;
+                        padding: 0 30px;
+                    }
+
+                    @include mobile {
+                        padding: 0 25px;
+                    }
+
                     h4 {
                         font-size: 1em;
                         font-weight: 400;
@@ -191,6 +279,10 @@ export default {
                         text-transform: uppercase;
                         letter-spacing: 2px;
                         margin-bottom: 10px;
+
+                        @include mobile {
+                            font-size: 0.9em;
+                        }
                     }
 
                     h2 {
@@ -200,6 +292,14 @@ export default {
                         font-weight: 400;
                         text-transform: uppercase;
                         margin-bottom: 15px;
+
+                        @include tablet {
+                            font-size: 2.5em;
+                        }
+
+                        @include mobile {
+                            font-size: 1.8em;
+                        }
                     }
 
                     p {
@@ -208,6 +308,12 @@ export default {
                         font-weight: 400;
                         color: $blue;
                         line-height: 1.5em;
+
+                        @include tablet {
+                            font-size: 1em;
+                            max-width: 460px;
+                            line-height: 1.6em;
+                        }
                     }
                 }
             }
@@ -222,6 +328,15 @@ export default {
                     width: 100%;
                     height: auto;
                     max-height: 310px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    object-fit: cover;
+                    margin-bottom: 60px;
+                }
+
+                @include mobile {
+                    margin-bottom: 30px;
                 }
 
                 img {
@@ -230,7 +345,6 @@ export default {
 
                     @include tablet {
                         width: 100%;
-                        height: auto;
                     }
                 }
             }
