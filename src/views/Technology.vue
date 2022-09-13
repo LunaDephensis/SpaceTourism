@@ -124,13 +124,7 @@ export default {
         }
 
         .pageTitle {
-            position: relative;
-            width: 100%;
-            font-size: 1.4em;
-            font-weight: 300;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: $white;
+            @include pageTitle;
             margin: 50px 0;
 
             @include tablet {
@@ -145,11 +139,6 @@ export default {
                 text-align: center;
             }
 
-            span {
-                font-weight: 700;
-                margin-right: 8px;
-                opacity: 0.3;
-            }
         }
 
         .technologyDetails {
@@ -303,16 +292,11 @@ export default {
                     }
 
                     p {
-                        max-width: 400px;
-                        font-size: 1.2em;
-                        font-weight: 400;
-                        color: $blue;
-                        line-height: 1.5em;
+                        @include description;
 
                         @include tablet {
                             font-size: 1em;
                             max-width: 460px;
-                            line-height: 1.6em;
                         }
                     }
                 }

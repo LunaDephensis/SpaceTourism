@@ -131,12 +131,7 @@ export default {
         }
 
         .pageTitle {
-            position: relative;
-            font-size: 1.4em;
-            font-weight: 300;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: $white;
+            @include pageTitle;
             margin: 30px 0 50px;
 
             @include tablet {
@@ -148,12 +143,6 @@ export default {
                 font-size: 1em;
                 margin: 5px 0 30px;
                 text-align: center;
-            }
-
-            span {
-                font-weight: 700;
-                margin-right: 8px;
-                opacity: 0.3;
             }
         }
 
@@ -288,10 +277,7 @@ export default {
                     }
 
                     .destinationText {
-                        font-size: 1.2em;
-                        font-weight: 400;
-                        color: $blue;
-                        line-height: 1.6em;
+                        @include description;
                         padding-right: 10px;
                         padding-bottom: 40px;
                         border-bottom: 1px solid rgba(255,255,255,0.1);

@@ -122,12 +122,7 @@ export default {
         }
 
         .pageTitle {
-                position: relative;
-                font-size: 1.4em;
-                font-weight: 300;
-                letter-spacing: 3px;
-                text-transform: uppercase;
-                color: $white;
+                @include pageTitle;
                 grid-column: 1/2;
                 grid-row: 1/2;
 
@@ -142,12 +137,6 @@ export default {
                     font-size: 1.1em;
                     order: 1;
                     margin-top: 10px;
-                }
-
-                span {
-                    font-weight: 700;
-                    margin-right: 8px;
-                    opacity: 0.3;
                 }
             }
 
@@ -229,10 +218,7 @@ export default {
 
             p {
                 max-width: 400px;
-                font-size: 1.2em;
-                font-weight: 400;
-                color: $blue;
-                line-height: 1.5em;
+                @include description;
                 margin-bottom: 20px;
 
                 @include tablet {

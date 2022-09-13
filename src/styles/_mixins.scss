@@ -1,0 +1,22 @@
+@mixin pageTitle {
+    position: relative;
+    width: 100%;
+    font-size: 1.4em;
+    font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: $white;
+
+    span {
+        font-weight: 700;
+        margin-right: 8px;
+        opacity: 0.3;
+    }
+}
+
+@mixin description {
+    font-size: 1.2em;
+    font-weight: 400;
+    color: $blue;
+    line-height: 1.6em;
+}

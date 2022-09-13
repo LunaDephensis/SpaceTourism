@@ -10,7 +10,7 @@
           because we’ll give you a truly out of this world experience!</p>
       </div>
       <div class="exploreBox">
-        <a class="exploreBtn" href="#">Explore</a>
+        <router-link to="/destination" class="exploreBtn">Explore</router-link>
       </div>
     </div>
   </section>
